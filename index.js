@@ -64,8 +64,9 @@ const interpolate = (a, b, weight) => {
   if (weight <= 0) return a;
   if (weight >= 1) return b;
   // https://en.wikipedia.org/wiki/Smoothstep
-  const smoothStep = 3 * weight ** 2 - 2 * weight ** 3;
+  const smoothStep = weight * weight * (3 - 2 * weight);
   const diff = b - a;
+
   return a + diff * smoothStep;
 };
 
@@ -128,14 +129,18 @@ const step = (now) => {
         bottomRightDotProduct,
         x_offset / GRID_SIZE
       );
+
+      // A value between -1 and 1.
       const perlinValue = interpolate(
         topInterolation,
         bottomInterpolation,
         y_offset / GRID_SIZE
       );
 
-      canvasContext.fillStyle = `rgb(255 255 255 / ${perlinValue * 100}%)`;
-      canvasContext.fillRect(pixelColIndex, pixelRowIndex, 1, 1);
+      const transparency = ((perlinValue + 1) / 2) * 100;
+
+      canvasContext.fillStyle = `rgb(255 255 255 / ${transparency}%)`;
+      canvasContext.fillRect(pixelColIndex, pixelRowIndex, 5, 5);
     }
   }
 
