@@ -27,7 +27,7 @@ if (canvasContext === null) throw new Error("Could not retrieve 2d context");
  */
 const createAnimatedRandomVector = () => {
   const initialRadians = Math.random() * 2 * Math.PI;
-  const radiansPerMillisecond = (1 + 9 * Math.random()) / 2000;
+  const radiansPerMillisecond = (2 * Math.random() - 1) / 500;
 
   return (milliseconds) => [
     Math.cos(initialRadians + radiansPerMillisecond * milliseconds),
