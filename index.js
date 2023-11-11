@@ -65,9 +65,8 @@ const interpolate = (a, b, weight) => {
   if (weight >= 1) return b;
   // https://en.wikipedia.org/wiki/Smoothstep
   const smoothStep = weight * weight * (3 - 2 * weight);
-  const diff = b - a;
 
-  return a + diff * smoothStep;
+  return a * (1 - smoothStep) + b * smoothStep;
 };
 
 /**
