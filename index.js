@@ -70,6 +70,16 @@ const interpolate = (a, b, weight) => {
 };
 
 /**
+ * Given some vector, return the parallel unit vector
+ * @param {[number, number]} vector
+ * @returns {[number, number]} A unit vector
+ */
+const unitVector = ([x, y]) => {
+  const length = Math.sqrt(x ** 2 + y ** 2);
+  return [x / length, y / length];
+};
+
+/**
  * Top-level animation loop handler.
  * @param {number} now
  */
@@ -81,16 +91,16 @@ const step = (now) => {
   );
 
   for (
-    let pixelRowIndex = 0;
+    let pixelRowIndex = 4;
     pixelRowIndex < CANVAS_HEIGHT;
-    pixelRowIndex += 10
+    pixelRowIndex += 8
   ) {
     const y_offset = pixelRowIndex % GRID_SIZE;
     const grid_row_index = (pixelRowIndex - y_offset) / GRID_SIZE;
     for (
-      let pixelColIndex = 0;
+      let pixelColIndex = 4;
       pixelColIndex < CANVAS_WIDTH;
-      pixelColIndex += 10
+      pixelColIndex += 8
     ) {
       const x_offset = pixelColIndex % GRID_SIZE;
       const grid_col_index = (pixelColIndex - x_offset) / GRID_SIZE;
@@ -103,19 +113,22 @@ const step = (now) => {
         staticVectorGrid[grid_row_index + 1][grid_col_index + 1];
 
       // Dot products
-      const topLeftDotProduct = dotProduct(gridTopLeft, [x_offset, y_offset]);
-      const topRightDotProduct = dotProduct(gridTopRight, [
-        GRID_SIZE - x_offset,
-        y_offset,
-      ]);
-      const bottomLeftDotProduct = dotProduct(gridBottomLeft, [
-        x_offset,
-        GRID_SIZE - y_offset,
-      ]);
-      const bottomRightDotProduct = dotProduct(gridBottomRight, [
-        GRID_SIZE - x_offset,
-        GRID_SIZE - y_offset,
-      ]);
+      const topLeftDotProduct = dotProduct(
+        gridTopLeft,
+        unitVector([x_offset, y_offset])
+      );
+      const topRightDotProduct = dotProduct(
+        gridTopRight,
+        unitVector([GRID_SIZE - x_offset, y_offset])
+      );
+      const bottomLeftDotProduct = dotProduct(
+        gridBottomLeft,
+        unitVector([x_offset, GRID_SIZE - y_offset])
+      );
+      const bottomRightDotProduct = dotProduct(
+        gridBottomRight,
+        unitVector([GRID_SIZE - x_offset, GRID_SIZE - y_offset])
+      );
 
       // Interpolation
       const topInterolation = interpolate(
@@ -139,7 +152,7 @@ const step = (now) => {
       const transparency = ((perlinValue + 1) / 2) * 100;
 
       canvasContext.fillStyle = `rgb(255 255 255 / ${transparency}%)`;
-      canvasContext.fillRect(pixelColIndex, pixelRowIndex, 5, 5);
+      canvasContext.fillRect(pixelColIndex - 2, pixelRowIndex - 2, 4, 4);
     }
   }
 
