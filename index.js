@@ -2,11 +2,11 @@
 /**
  * Height of the canvas in screen pixels
  */
-const CANVAS_HEIGHT = 1000;
+const CANVAS_HEIGHT = 800;
 /**
  * Width of the canvas in screen pixels
  */
-const CANVAS_WIDTH = 1000;
+const CANVAS_WIDTH = 800;
 
 /**
  * The number of pixels both vertically and horizontally
