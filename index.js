@@ -80,6 +80,15 @@ const unitVector = ([x, y]) => {
 };
 
 /**
+ * Given a value between 0 and 1, map it to a colour.
+ * @param {number} normalizedValue A value between 0 and 1 (inclusive)
+ * @returns {string} color string valid for rendering to browser
+ */
+const colorize = (normalizedValue) => {
+  return `hsl(${100 * normalizedValue}deg 50% 50%)`;
+};
+
+/**
  * Top-level animation loop handler.
  * @param {number} now
  */
@@ -152,7 +161,7 @@ const step = (now) => {
       // A value between 0 and 1.
       const normalizedPerlin = (perlinValue + 1) / 2;
 
-      canvasContext.fillStyle = `rgb(255 255 255 / ${normalizedPerlin * 100}%)`;
+      canvasContext.fillStyle = colorize(normalizedPerlin);
       canvasContext.fillRect(pixelColIndex - 4, pixelRowIndex - 4, 9, 9);
     }
   }
