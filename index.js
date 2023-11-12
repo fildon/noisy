@@ -93,14 +93,14 @@ const step = (now) => {
   for (
     let pixelRowIndex = 4;
     pixelRowIndex < CANVAS_HEIGHT;
-    pixelRowIndex += 8
+    pixelRowIndex += 9
   ) {
     const y_offset = pixelRowIndex % GRID_SIZE;
     const grid_row_index = (pixelRowIndex - y_offset) / GRID_SIZE;
     for (
       let pixelColIndex = 4;
       pixelColIndex < CANVAS_WIDTH;
-      pixelColIndex += 8
+      pixelColIndex += 9
     ) {
       const x_offset = pixelColIndex % GRID_SIZE;
       const grid_col_index = (pixelColIndex - x_offset) / GRID_SIZE;
@@ -149,10 +149,11 @@ const step = (now) => {
         y_offset / GRID_SIZE
       );
 
-      const transparency = ((perlinValue + 1) / 2) * 100;
+      // A value between 0 and 1.
+      const normalizedPerlin = (perlinValue + 1) / 2;
 
-      canvasContext.fillStyle = `rgb(255 255 255 / ${transparency}%)`;
-      canvasContext.fillRect(pixelColIndex - 2, pixelRowIndex - 2, 4, 4);
+      canvasContext.fillStyle = `rgb(255 255 255 / ${normalizedPerlin * 100}%)`;
+      canvasContext.fillRect(pixelColIndex - 4, pixelRowIndex - 4, 9, 9);
     }
   }
 
